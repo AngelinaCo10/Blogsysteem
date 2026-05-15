@@ -8,9 +8,123 @@ async function getData(): Promise<Payment[]> {
       id: "728ed52f",
       amount: 100,
       status: "pending",
-      email: "m@example.com",
+      email: "Angelina.com",
     },
-    // ...
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Bravo.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Charlie.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+      {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+
   ]
 }
 
