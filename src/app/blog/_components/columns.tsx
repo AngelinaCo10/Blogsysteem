@@ -47,10 +47,7 @@ export const columns: ColumnDef<Payment>[] = [
     enableSorting: false,
     enableHiding: false,
   },
-  {
-    accessorKey: "status",
-    header: "Status",
-  },
+
   {
     accessorKey: "email",
     header: ({ column }) => {
@@ -59,7 +56,21 @@ export const columns: ColumnDef<Payment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
+          Titel
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
+    },
+  },
+    {
+    accessorKey: "status",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Status
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -73,7 +84,7 @@ export const columns: ColumnDef<Payment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
+          Auteur
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -87,7 +98,7 @@ export const columns: ColumnDef<Payment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
+          Categorieën
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
@@ -101,26 +112,39 @@ export const columns: ColumnDef<Payment>[] = [
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
+          Tags
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       )
     },
   },
-
   {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount)
-
-      return <div className="text-right font-medium">{formatted}</div>
+    accessorKey: "email",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Datum
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      )
     },
   },
+  // {
+  //   accessorKey: "amount",
+  //   header: () => <div className="text-right">Amount</div>,
+  //   cell: ({ row }) => {
+  //     const amount = parseFloat(row.getValue("amount"))
+  //     const formatted = new Intl.NumberFormat("en-US", {
+  //       style: "currency",
+  //       currency: "USD",
+  //     }).format(amount)
+
+  //     return <div className="text-right font-medium">{formatted}</div>
+  //   },
+  // },
   {
     id: "actions",
     cell: ({ row }) => {

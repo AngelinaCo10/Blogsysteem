@@ -12,7 +12,7 @@ async function getData(): Promise<Payment[]> {
     },
     {
       id: "728ed52f",
-      amount: 100,
+      amount: 90,
       status: "pending",
       email: "Bravo.com",
     },
@@ -124,7 +124,66 @@ async function getData(): Promise<Payment[]> {
       status: "pending",
       email: "Delta.com",
     },
-
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
+    {
+      id: "728ed52f",
+      amount: 100,
+      status: "pending",
+      email: "Delta.com",
+    },
   ]
 }
 
@@ -132,7 +191,8 @@ export default async function DemoPage() {
   const data = await getData()
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto w-full max-w-10xl px-4 py-10 lg:px-8">
+       <h1 className="text-3xl font-bold text-[#52525C]">Blogs</h1>
       <DataTable columns={columns} data={data} />
     </div>
   )

@@ -21,6 +21,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+
+import {
+  ChevronsLeft,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsRight,
+} from "lucide-react";
+
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
@@ -55,7 +63,8 @@ export function DataTable<TData, TValue>({
 
   return (
     <>
-      <div className="flex items-center py-4">
+      <div className="flex items-center gap-4 py-4">
+        {/* Filter input */}
         <Input
           placeholder="Filter emails..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
@@ -64,6 +73,11 @@ export function DataTable<TData, TValue>({
           }
           className="max-w-sm"
         />
+
+        {/* New blog button */}
+        <Button className="bg-[#415732] text-white hover:bg-[#CDD12A]">
+          Nieuwe blog
+        </Button>
       </div>
       <div className="overflow-hidden rounded-md border">
         <Table>
@@ -115,21 +129,75 @@ export function DataTable<TData, TValue>({
       </div>
       <div>
         <div className="flex items-center justify-end space-x-2 py-4">
-          <Button
+          {/* First page button */}
+          <Button className="bg-[#D7DB2D] text-white hover:bg-[#CDD12A] border-[#D7DB2D]"
             variant="outline"
-            size="sm"
+            size="icon"
+            onClick={() => table.setPageIndex(0)}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <ChevronsLeft className="h-4 w-4 text-[#717336]" />
+          </Button>
+
+          {/* Previous page button */}
+          <Button className="bg-[#D7DB2D] text-white hover:bg-[#CDD12A] border-[#D7DB2D]"
+            variant="outline"
+            size="icon"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+            <ChevronLeft className="h-4 w-4 text-[#717336]" />
+
           </Button>
-          <Button
+
+          {/* Page number buttons */}
+          {/* {Array.from({ length: table.getPageCount() }, (_, i) => (
+            <Button className="h-8 w-8"
+              key={i}
+              variant={table.getState().pagination.pageIndex === i ? "default" : "outline"}
+              onClick={() => table.setPageIndex(i)}
+            >
+              {i + 1}
+            </Button>
+          ))} */}
+          {Array.from({ length: table.getPageCount() }, (_, i) => {
+            const isActive = table.getState().pagination.pageIndex === i
+
+            return (
+              <Button
+                key={i}
+                variant="outline"
+                className={
+                  isActive
+                    ? "h-8 w-8 bg-[#F4F4F5] text-black "
+                    : "h-8 w-8 border-zinc-300 bg-white text-zinc-700 hover:bg-zinc-100"
+                }
+                onClick={() => table.setPageIndex(i)}
+              >
+                {i + 1}
+              </Button>
+            )
+          })}
+
+          {/* Next page button */}
+          <Button className="bg-[#D7DB2D] text-white hover:bg-[#CDD12A] border-[#D7DB2D]"
             variant="outline"
-            size="sm"
+            size="icon"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
+            <ChevronRight className="h-4 w-4 text-[#717336]" />
+
+          </Button>
+
+          {/* Last page button */}
+          <Button className="bg-[#D7DB2D] text-white hover:bg-[#CDD12A] border-[#D7DB2D]"
+            variant="outline"
+            size="icon"
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
+          >
+            <ChevronsRight className="h-4 w-4 text-[#717336]" />
           </Button>
         </div>
       </div>
