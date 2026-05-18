@@ -31,6 +31,11 @@ import {
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import {
+  Tabs,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -79,6 +84,26 @@ export function DataTable<TData, TValue>({
           Nieuwe blog
         </Button>
       </div>
+            <Tabs
+        defaultValue="alle"
+        className="mt-6"
+        onValueChange={(value) => {
+          table
+            .getColumn("status")
+            ?.setFilterValue(value === "alle" ? undefined : value)
+          table.setPageIndex(0)
+        }}
+      >
+        <TabsList variant="line">
+          <TabsTrigger value="alle">Alle</TabsTrigger>
+          <TabsTrigger value="concept">Mijn</TabsTrigger>
+          <TabsTrigger value="gepubliceerd">Gepubliceerd</TabsTrigger>
+          <TabsTrigger value="concept">Concepten</TabsTrigger>                  
+          <TabsTrigger value="ingepland">Ingepland</TabsTrigger>
+          <TabsTrigger value="prullenbak">Prullenbak</TabsTrigger>
+        </TabsList>
+      </Tabs>
+
       <div className="overflow-hidden rounded-md border">
         <Table>
           <TableHeader>
@@ -151,15 +176,6 @@ export function DataTable<TData, TValue>({
           </Button>
 
           {/* Page number buttons */}
-          {/* {Array.from({ length: table.getPageCount() }, (_, i) => (
-            <Button className="h-8 w-8"
-              key={i}
-              variant={table.getState().pagination.pageIndex === i ? "default" : "outline"}
-              onClick={() => table.setPageIndex(i)}
-            >
-              {i + 1}
-            </Button>
-          ))} */}
           {Array.from({ length: table.getPageCount() }, (_, i) => {
             const isActive = table.getState().pagination.pageIndex === i
 
