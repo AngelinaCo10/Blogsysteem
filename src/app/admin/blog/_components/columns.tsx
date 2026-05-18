@@ -32,7 +32,7 @@ import {
 export type Payment = {
   id: string
   amount: number
-  status: "concept" | "gepubliceerd" | "prullenbak" | "ingepland"
+  status: "Mijn" | "concept" | "gepubliceerd" | "prullenbak"
   email: string
 }
 

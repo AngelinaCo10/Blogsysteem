@@ -1,6 +1,15 @@
 "use client"
+
+const tabStyle =
+  "rounded-none border-r border-[#E6E6E6] px-4 py-2 text-[#415732] shadow-none data-active:border-[#D7DB2D] data-active:!bg-[#D7DB2D] data-active:text-[#415732] data-[state=active]:border-[#D7DB2D] data-[state=active]:!bg-[#D7DB2D] data-[state=active]:text-[#415732]"
+
+const tabsStyle = "!rounded-tl-md rounded-none border-transparent px-4 py-2 text-[#415732] shadow-none data-active:border-[#D7DB2D] data-active:!bg-[#D7DB2D] data-active:text-[#415732] data-[state=active]:border-[#D7DB2D] data-[state=active]:!bg-[#D7DB2D] data-[state=active]:text-[#415732]"
+const taaStyle = "!rounded-tr-md rounded-none border-transparent px-4 py-2 text-[#415732] shadow-none data-active:border-[#D7DB2D] data-active:!bg-[#D7DB2D] data-active:text-[#415732] data-[state=active]:border-[#D7DB2D] data-[state=active]:!bg-[#D7DB2D] data-[state=active]:text-[#415732]"
+
 import * as React from "react"
 
+
+ 
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -36,6 +45,7 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/components/ui/tabs"
+
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -84,7 +94,7 @@ export function DataTable<TData, TValue>({
           Nieuwe blog
         </Button>
       </div>
-            <Tabs
+      <Tabs
         defaultValue="alle"
         className="mt-6"
         onValueChange={(value) => {
@@ -94,17 +104,17 @@ export function DataTable<TData, TValue>({
           table.setPageIndex(0)
         }}
       >
-        <TabsList variant="line">
-          <TabsTrigger value="alle">Alle</TabsTrigger>
-          <TabsTrigger value="concept">Mijn</TabsTrigger>
-          <TabsTrigger value="gepubliceerd">Gepubliceerd</TabsTrigger>
-          <TabsTrigger value="concept">Concepten</TabsTrigger>                  
-          <TabsTrigger value="ingepland">Ingepland</TabsTrigger>
-          <TabsTrigger value="prullenbak">Prullenbak</TabsTrigger>
+        <TabsList className="/ p-0 rounded-b-none bg-white border">
+          <TabsTrigger value="alle" className={tabsStyle}>Alle</TabsTrigger>
+          <TabsTrigger value="Mijn" className={tabStyle}>Mijn</TabsTrigger>
+          <TabsTrigger value="gepubliceerd" className={tabStyle}>Gepubliceerd</TabsTrigger>
+          <TabsTrigger value="concept" className={tabStyle}>Concepten</TabsTrigger>
+          <TabsTrigger value="ingepland" className={tabStyle}>Ingepland</TabsTrigger>
+          <TabsTrigger value="prullenbak" className={taaStyle}>Prullenbak</TabsTrigger>
         </TabsList>
       </Tabs>
 
-      <div className="overflow-hidden rounded-md border">
+      <div className="overflow-hidden rounded-md border rounded-tl-none">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -141,7 +151,7 @@ export function DataTable<TData, TValue>({
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                  No results.
+                  Geen resultaten.
                 </TableCell>
               </TableRow>
             )}
