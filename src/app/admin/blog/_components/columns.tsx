@@ -1,13 +1,15 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontalIcon } from "lucide-react"
+import { MoreHorizontalIcon, Trash2 } from "lucide-react"
 import Link from "next/link"
+
 
 import { Button } from "@/components/ui/button"
 import { ArrowUpDown } from "lucide-react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { ChevronDown } from "lucide-react"
+import { Trash2Icon } from "lucide-react"
 
 import {
   DropdownMenu,
@@ -19,6 +21,20 @@ import {
 } from "@/components/ui/dropdown-menu"
 
 
+
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -48,12 +64,14 @@ export const columns: ColumnDef<Blog>[] = [
       />
     ),
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-        className="data-[state=active]:border-[#E6E6E6]"
-      />
+      <div onClick={(event) => event.stopPropagation()}>
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+          className="data-[state=active]:border-[#E6E6E6]"
+        />
+      </div>
     ),
     enableSorting: false,
     enableHiding: false,
@@ -262,20 +280,33 @@ export const columns: ColumnDef<Blog>[] = [
     enableHiding: false,
     cell: () => {
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger
-            className="inline-flex size-8 items-center justify-center rounded-lg hover:bg-muted focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50"
-            aria-label="Open menu"
-          >
-            <MoreHorizontalIcon className="size-4" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" sideOffset={6} className="z-[100] w-40">
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Duplicate</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem variant="destructive">Delete</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div
+          onClick={(event) => event.stopPropagation()}
+          onPointerDown={(event) => event.stopPropagation()}
+        >
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+            <div className=" flex justify-center p-[5px] opacity-0 transition-opacity group-hover:opacity-100 hover:bg-[#FDE6E7] rounded-md ">
+              <Trash2 size={30} strokeWidth={1.25} />
+            </div>
+            </AlertDialogTrigger>
+            <AlertDialogContent size="sm">
+              <AlertDialogHeader>
+                <AlertDialogMedia className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
+                  <Trash2Icon />
+                </AlertDialogMedia>
+                <AlertDialogTitle>Verplaatsen naar prullenbak?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  Blog wordt verplaatst naar prullenbak.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel variant="outline">Annuleren</AlertDialogCancel>
+                <AlertDialogAction variant="destructive">Prullenbak</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+          </div>
       )
     },
   },

@@ -161,7 +161,7 @@ const router = useRouter()
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="odd:bg-[#F6F7F7] cursor-pointer "
+                  className="odd:bg-[#F6F7F7] cursor-pointer group"
                   onClick={() =>
                     router.push(`/admin/${row.original.id}/edit`)
                    }
