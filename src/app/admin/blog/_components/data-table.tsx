@@ -3,11 +3,10 @@
 const tabLeft = "!rounded-tl-md rounded-none border-b-0 border-[#E6E6E6] px-10 text-[#52525c] shadow-none data-active:border-[#D7DB2D] data-active:!bg-[#D7DB2D] data-[state=active]:border-[#E6E6E6] data-[state=active]:!bg-[#415732] data-[state=active]:text-[#FFFFFF]"
 const tabStyle = "rounded-none border-b-0 border-l-0 border-[#E6E6E6] px-10 text-[#52525c] shadow-none data-active:border-[#D7DB2D] data-active:!bg-[#D7DB2D]  data-[state=active]:border-[#E6E6E6] data-[state=active]:!bg-[#415732] data-[state=active]:text-[#FFFFFF]"
 const tabRight = "!rounded-tr-md rounded-none border-b-0 border-l-0 border-[#E6E6E6] px-10 text-[#52525c] shadow-none data-active:border-[#D7DB2D] data-[state=active]:border-[#E6E6E6] data-[state=active]:!bg-[#415732] data-[state=active]:text-[#FFFFFF]"
-
 import * as React from "react"
 
 import Link from "next/link"
-
+import { useRouter } from "next/navigation"
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -75,6 +74,7 @@ export function DataTable<TData extends { id: string | number }, TValue>({
     },
   })
 
+const router = useRouter()
   return (
     <>
       <div className="flex items-center gap-4 py-4">
@@ -161,7 +161,10 @@ export function DataTable<TData extends { id: string | number }, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="odd:bg-[#F6F7F7]"
+                  className="odd:bg-[#F6F7F7] cursor-pointer "
+                  onClick={() =>
+                    router.push(`/admin/${row.original.id}/edit`)
+                   }
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
