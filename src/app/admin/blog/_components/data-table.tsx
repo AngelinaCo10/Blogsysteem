@@ -1,15 +1,13 @@
 "use client"
 
-const tabStyle =
-  "rounded-none border-r border-[#E6E6E6] px-4 py-2 text-[#415732] shadow-none data-active:border-[#D7DB2D] data-active:!bg-[#D7DB2D] data-active:text-[#415732] data-[state=active]:border-[#D7DB2D] data-[state=active]:!bg-[#D7DB2D] data-[state=active]:text-[#415732]"
-
-const tabsStyle = "!rounded-tl-md rounded-none border-transparent px-4 py-2 text-[#415732] shadow-none data-active:border-[#D7DB2D] data-active:!bg-[#D7DB2D] data-active:text-[#415732] data-[state=active]:border-[#D7DB2D] data-[state=active]:!bg-[#D7DB2D] data-[state=active]:text-[#415732]"
-const taaStyle = "!rounded-tr-md rounded-none border-transparent px-4 py-2 text-[#415732] shadow-none data-active:border-[#D7DB2D] data-active:!bg-[#D7DB2D] data-active:text-[#415732] data-[state=active]:border-[#D7DB2D] data-[state=active]:!bg-[#D7DB2D] data-[state=active]:text-[#415732]"
+const tabLeft = "!rounded-tl-md rounded-none border-b-0 border-[#E6E6E6] px-10 text-[#52525c] shadow-none data-active:border-[#D7DB2D] data-active:!bg-[#D7DB2D] data-[state=active]:border-[#E6E6E6] data-[state=active]:!bg-[#415732] data-[state=active]:text-[#FFFFFF]"
+const tabStyle = "rounded-none border-b-0 border-l-0 border-[#E6E6E6] px-10 text-[#52525c] shadow-none data-active:border-[#D7DB2D] data-active:!bg-[#D7DB2D]  data-[state=active]:border-[#E6E6E6] data-[state=active]:!bg-[#415732] data-[state=active]:text-[#FFFFFF]"
+const tabRight = "!rounded-tr-md rounded-none border-b-0 border-l-0 border-[#E6E6E6] px-10 text-[#52525c] shadow-none data-active:border-[#D7DB2D] data-[state=active]:border-[#E6E6E6] data-[state=active]:!bg-[#415732] data-[state=active]:text-[#FFFFFF]"
 
 import * as React from "react"
 
+import Link from "next/link"
 
- 
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -47,12 +45,13 @@ import {
 } from "@/components/ui/tabs"
 
 
-interface DataTableProps<TData, TValue> {
+interface DataTableProps<TData extends { id: string | number }, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
+  onBulkDelete?: (selectedIds: Array<string | number>) => void
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends { id: string | number }, TValue>({
   columns,
   data,
 }: DataTableProps<TData, TValue>) {
@@ -81,22 +80,29 @@ export function DataTable<TData, TValue>({
       <div className="flex items-center gap-4 py-4">
         {/* Filter input */}
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          placeholder="Filter blogs..."
+          value={(table.getColumn("titel")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
+            table.getColumn("titel")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
 
+
+
         {/* New blog button */}
-        <Button className="bg-[#415732] text-white hover:bg-[#CDD12A]">
-          Nieuwe blog
+        <Button
+          asChild
+          className="rounded-sm bg-[#415732] text-white hover:bg-[#CDD12A]"
+        >
+          <Link href="/admin/admin-new">
+            Nieuwe blog
+          </Link>
         </Button>
       </div>
       <Tabs
         defaultValue="alle"
-        className="mt-6"
+        className="mt-3"
         onValueChange={(value) => {
           table
             .getColumn("status")
@@ -104,17 +110,32 @@ export function DataTable<TData, TValue>({
           table.setPageIndex(0)
         }}
       >
-        <TabsList className="/ p-0 rounded-b-none bg-white border">
-          <TabsTrigger value="alle" className={tabsStyle}>Alle</TabsTrigger>
-          <TabsTrigger value="Mijn" className={tabStyle}>Mijn</TabsTrigger>
-          <TabsTrigger value="gepubliceerd" className={tabStyle}>Gepubliceerd</TabsTrigger>
-          <TabsTrigger value="concept" className={tabStyle}>Concepten</TabsTrigger>
-          <TabsTrigger value="ingepland" className={tabStyle}>Ingepland</TabsTrigger>
-          <TabsTrigger value="prullenbak" className={taaStyle}>Prullenbak</TabsTrigger>
-        </TabsList>
+        <div className="w-full overflow-x-auto">
+          <TabsList className="min-w-full p-0 rounded-b-none bg-white">
+            <TabsTrigger value="alle" className={tabLeft}>Alle</TabsTrigger>
+            <TabsTrigger value="Mijn" className={tabStyle}>Mijn</TabsTrigger>
+            <TabsTrigger value="gepubliceerd" className={tabStyle}>Gepubliceerd</TabsTrigger>
+            <TabsTrigger value="concept" className={tabStyle}>Concepten</TabsTrigger>
+            <TabsTrigger value="ingepland" className={tabStyle}>Ingepland</TabsTrigger>
+            <TabsTrigger value="prullenbak" className={tabRight}>Prullenbak</TabsTrigger>
+          </TabsList>
+        </div>
       </Tabs>
 
-      <div className="overflow-hidden rounded-md border rounded-tl-none">
+      {/* Delete button */}
+      {/* <Button
+        variant="destructive"
+        disabled={table.getSelectedRowModel().rows.length === 0}
+        onClick={() => {
+          const selectedBlogs = table.getSelectedRowModel().rows.map((row) => row.original)
+
+          console.log(selectedBlogs)
+        }}
+      >
+        Verplaats naar prullenbak
+      </Button> */}
+
+      <div className="overflow-x-auto rounded-md border rounded-tl-none">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -140,6 +161,7 @@ export function DataTable<TData, TValue>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className="odd:bg-[#F6F7F7]"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
