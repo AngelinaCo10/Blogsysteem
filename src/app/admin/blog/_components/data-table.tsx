@@ -8,7 +8,6 @@ import * as React from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import {
-  ColumnDef,
   ColumnFiltersState,
   SortingState,
   flexRender,
@@ -18,6 +17,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
+import { columns, type Blog } from "./columns"
 
 import {
   Table,
@@ -44,24 +44,44 @@ import {
 } from "@/components/ui/tabs"
 
 
-interface DataTableProps<TData extends { id: string | number }, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-  onBulkDelete?: (selectedIds: Array<string | number>) => void
+interface DataTableProps {
+  data: Blog[]
 }
 
-export function DataTable<TData extends { id: string | number }, TValue>({
-  columns,
+export function DataTable({
   data,
-}: DataTableProps<TData, TValue>) {
+}: DataTableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
+  const [blogs, setBlogs] = React.useState(data)
+  const [statusTab, setStatusTab] = React.useState("alle")
 
+  React.useEffect(() => {
+    setBlogs(data)
+  }, [data])
+
+  const moveToTrash = React.useCallback((blogToTrash: Blog) => {
+    setBlogs((current) =>
+      current.map((blog) =>
+        blog.id === blogToTrash.id ? { ...blog, status: "prullenbak" } : blog
+      )
+    )
+  }, [])
+
+  const filteredBlogs = React.useMemo(() => {
+    if (statusTab === "alle") {
+      return blogs.filter((blog) => blog.status !== "prullenbak")
+    }
+
+    return blogs.filter((blog) => blog.status === statusTab)
+  }, [blogs, statusTab])
+  
   const table = useReactTable({
-    data,
+    data: filteredBlogs,
     columns,
+    meta: {
+      moveToTrash,
+    },
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     onSortingChange: setSorting,
@@ -104,9 +124,7 @@ const router = useRouter()
         defaultValue="alle"
         className="mt-3"
         onValueChange={(value) => {
-          table
-            .getColumn("status")
-            ?.setFilterValue(value === "alle" ? undefined : value)
+          setStatusTab(value)
           table.setPageIndex(0)
         }}
       >

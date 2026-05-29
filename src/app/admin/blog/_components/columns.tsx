@@ -1,7 +1,7 @@
 "use client"
 
-import { ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontalIcon, Trash2 } from "lucide-react"
+import { ColumnDef, RowData } from "@tanstack/react-table"
+import { Trash2 } from "lucide-react"
 import Link from "next/link"
 
 
@@ -15,8 +15,6 @@ import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 
@@ -46,6 +44,12 @@ export type Blog = {
   categorie: string
   tags: string[]
   datum: string
+}
+
+declare module "@tanstack/react-table" {
+  interface TableMeta<TData extends RowData> {
+    moveToTrash?: (row: TData) => void
+  }
 }
 
 export const columns: ColumnDef<Blog>[] = [
@@ -278,7 +282,7 @@ export const columns: ColumnDef<Blog>[] = [
     header: () => <span className="sr-only">Acties</span>,
     enableSorting: false,
     enableHiding: false,
-    cell: () => {
+    cell: ({ row, table }) => {
       return (
         <div
           onClick={(event) => event.stopPropagation()}
@@ -302,7 +306,12 @@ export const columns: ColumnDef<Blog>[] = [
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel variant="outline">Annuleren</AlertDialogCancel>
-                <AlertDialogAction variant="destructive">Prullenbak</AlertDialogAction>
+                <AlertDialogAction
+                  variant="destructive"
+                  onClick={() => table.options.meta?.moveToTrash?.(row.original)}
+                >
+                  Prullenbak
+                </AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>

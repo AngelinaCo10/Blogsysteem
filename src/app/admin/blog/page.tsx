@@ -1,4 +1,3 @@
-import { columns } from "./_components/columns"
 import type { Blog } from "./_components/columns"
 import { DataTable } from "./_components/data-table"
 
@@ -465,7 +464,7 @@ export default async function DemoPage() {
   return (
     <div className="container mx-auto w-full max-w-10xl px-4 py-10 lg:px-8">
       <h1 className="text-3xl font-bold text-[#52525C]">Blogs</h1>
-      <DataTable columns={columns} data={data} />
+      <DataTable data={data} />
     </div>
   )
 }
