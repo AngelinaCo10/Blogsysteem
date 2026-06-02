@@ -144,10 +144,10 @@ export default function FieldDemo() {
                   <FieldLabel htmlFor="checkout-7j9-card-name-43j">
                     Metabeschrijving
                   </FieldLabel>
-                  <Input
-                    id="checkout-7j9-card-name-43j"
-                    placeholder="Titel toevoegen"
-                    required
+                  <Textarea
+                    id="checkout-7j9-optional-comments"
+                    placeholder="Add any additional comments"
+                    className="resize-none"
                   />
                 </Field>
               </FieldGroup>
