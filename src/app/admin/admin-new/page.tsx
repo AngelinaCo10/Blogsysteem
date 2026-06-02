@@ -20,7 +20,6 @@ export default function FieldDemo() {
 
   const [tags, setTags] = useState<string[]>([])
   const [input, setInput] = useState("")
-
   function addTag() {
     const trimmed = input.trim()
     if (!trimmed || tags.includes(trimmed)) return
@@ -30,6 +29,25 @@ export default function FieldDemo() {
 
   function removeTag(tag: string) {
     setTags(tags.filter((t) => t !== tag))
+  }
+
+  const [categories, setCategories] = useState([
+    "Niet gecategoriseerd",
+    "2B Green Nieuws en Informatie",
+    "Duurzaamheid",
+    "Laden en Elektrisch rijden",
+    "Groendaken en Dakbedekking",
+  ])
+  const [selectedCategory, setSelectedCategory] = useState("Niet gecategoriseerd")
+  const [newCategory, setNewCategory] = useState("")
+  const [showInput, setShowInput] = useState(false)
+  function addCategory() {
+    const trimmed = newCategory.trim()
+    if (!trimmed || categories.includes(trimmed)) return
+    setCategories([...categories, trimmed])  // voeg toe aan de lijst
+    setSelectedCategory(trimmed)             // selecteer meteen de nieuwe
+    setNewCategory("")
+    setShowInput(false)
   }
   return (
     <div className="w-4/5 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4 px-4 py-6 max-w-5xl mx-auto items-start">
@@ -181,38 +199,56 @@ export default function FieldDemo() {
             <CardTitle>Categorie</CardTitle>
           </CardHeader>
 
-          <RadioGroup defaultValue="comfortable" className="w-fit">
-            <Field orientation="horizontal">
-              <RadioGroupItem value="Niet gecategoriseerd" id="desc-r1" />
-              <FieldContent>
-                <FieldLabel htmlFor="desc-r1">Niet gecategoriseerd</FieldLabel>
-              </FieldContent>
-            </Field>
-            <Field orientation="horizontal">
-              <RadioGroupItem value="2B Green Nieuws en Informatie" id="desc-r2" />
-              <FieldContent>
-                <FieldLabel htmlFor="desc-r2">2B Green Nieuws en Informatie</FieldLabel>
-              </FieldContent>
-            </Field>
-            <Field orientation="horizontal">
-              <RadioGroupItem value="Duurzaamheid" id="desc-r3" />
-              <FieldContent>
-                <FieldLabel htmlFor="desc-r3">Duurzaamheid</FieldLabel>
-              </FieldContent>
-            </Field>
-            <Field orientation="horizontal">
-              <RadioGroupItem value="Laden en Elektrisch rijden" id="desc-r4" />
-              <FieldContent>
-                <FieldLabel htmlFor="desc-r4">Laden en Elektrisch rijden</FieldLabel>
-              </FieldContent>
-            </Field>
-            <Field orientation="horizontal">
-              <RadioGroupItem value="Groendaken en Dakbedekking" id="desc-r5" />
-              <FieldContent>
-                <FieldLabel htmlFor="desc-r5">Groendaken en Dakbedekking</FieldLabel>
-              </FieldContent>
-            </Field>
+          <RadioGroup
+            value={selectedCategory}
+            onValueChange={setSelectedCategory}
+            className="w-fit"
+          >
+            {categories.map((cat) => (
+              <Field key={cat} orientation="horizontal">
+                <RadioGroupItem value={cat} id={cat} />
+                <FieldContent>
+                  <FieldLabel htmlFor={cat}>{cat}</FieldLabel>
+                </FieldContent>
+              </Field>
+            ))}
           </RadioGroup>
+
+          {/* Nieuwe categorie toevoegen */}
+
+          <div className="mt-4 space-y-2">
+            {showInput ? (
+              <Field>
+                <Input
+                  placeholder="Nieuwe categorie"
+                  value={newCategory}
+                  onChange={(e) => setNewCategory(e.target.value)}
+                  onKeyDown={(e) => e.key === "Enter" && addCategory()}
+                />
+                <Field orientation="horizontal" className="">
+                  <Button type="button" onClick={addCategory}>
+                    Toevoegen
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    onClick={() => setShowInput(false)}
+                  >
+                    Annuleren
+                  </Button>
+                </Field>
+              </Field>
+            ) : (
+              <Button
+                type="button"
+                variant="ghost"
+                className="text-sm"
+                onClick={() => setShowInput(true)}
+              >
+                + Nieuwe categorie
+              </Button>
+            )}
+          </div>
         </Card>
 
         {/* Tags */}
@@ -255,7 +291,7 @@ export default function FieldDemo() {
               </div>
             )}
           </div>
-        </Card>      
+        </Card>
       </div>
     </div>
   )
