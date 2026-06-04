@@ -23,15 +23,16 @@ import {
   AlignCenter,
   Table,
   TableIcon,
+  ImageIcon,
 } from "lucide-react"
 
-  
-export default function MenuBar({editor}: { editor: Editor | null }) {
+
+export default function MenuBar({ editor }: { editor: Editor | null }) {
   if (!editor) {
     return null;
   }
 
-const options = [
+  const options = [
     {
       icon: <Heading1 className="size-4" />,
       onClick: () => editor.chain().focus().toggleHeading({ level: 1 }).run(),
@@ -128,38 +129,57 @@ const options = [
       pressed: editor.isActive("link"),
       label: "Link",
     },
+
+    // image upload
     {
-      icon: <Image className="size-4" />,
-      onClick: () => editor.chain().focus().toggleImage().run(),
-      pressed: editor.isActive("image"),
-      label: "Afbeelding",
+      icon: <ImageIcon className="size-4" />,
+      onClick: () => {
+        const input = document.createElement("input")
+
+        input.type = "file"
+        input.accept = "image/*"
+
+        input.onchange = () => {
+          const file = input.files?.[0]
+
+          if (!file) return
+
+          const imageUrl = URL.createObjectURL(file)
+
+          editor
+            .chain()
+            .focus()
+            .setImage({
+              src: imageUrl,
+              alt: file.name,
+            })
+            .run()
+        }
+        input.click()
+      },
+      pressed: false,
+      label: "Afbeelding toevoegen",
+    }, 
+    {
+      icon: <TableIcon className="size-4" />,
+      onClick: () =>
+        editor.chain().focus().insertTable({
+          rows: 3,
+          cols: 3,
+          withHeaderRow: true,
+        }).run(),
+      pressed: editor.isActive("table"),
+      label: "Tabel",
     },
     {
       icon: <Quote className="size-4" />,
-      onClick: () => editor.chain().focus().toggleQuote().run(),
-      pressed: editor.isActive("quote"),
+      onClick: () => editor.chain().focus().toggleBlockquote().run(),
+      pressed: editor.isActive("blockquote"),
       label: "Citaat",
-    }, 
-{
-  icon: <TableIcon className="size-4" />,
-  onClick: () =>
-    editor.chain().focus().insertTable({
-      rows: 3,
-      cols: 3,
-      withHeaderRow: true,
-    }).run(),
-  pressed: editor.isActive("table"),
-  label: "Tabel",
-}
-    // {
-    //   icon: <Youtube className="size-4" />,
-    //   onClick: () => editor.chain().focus().toggleStrike().run(),
-    //   pressed: editor.isActive("strike"),
-    //   label: "Doorstrepen",
-    // },
+    },
   ]
 
- return (
+  return (
     <div className="mb-2 flex flex-wrap gap-1 rounded-md border bg-background p-2">
       {options.map((option, index) => (
         <Toggle
@@ -176,4 +196,4 @@ const options = [
     </div>
   )
 }
-    
+

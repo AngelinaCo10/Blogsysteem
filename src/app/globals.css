@@ -185,4 +185,13 @@
 .ProseMirror tr:nth-child(even) {
   background-color: #fafafa;
 }
+
+/* quote */
+.ProseMirror blockquote {
+  border-left: 4px solid #415732;
+  margin: 1rem 0;
+  padding-left: 1rem;
+  font-style: italic;
+  color: #52525b;
+}
 }

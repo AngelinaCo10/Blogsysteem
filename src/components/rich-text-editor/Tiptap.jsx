@@ -6,6 +6,9 @@ import MenuBar from "@/components/rich-text-editor/menu-bar"
 import TextAlign from "@tiptap/extension-text-align"
 import Highlight from "@tiptap/extension-highlight"
 import { TableKit } from '@tiptap/extension-table'
+import { useCallback } from 'react'
+import Image from "@tiptap/extension-image"
+import Blockquote from '@tiptap/extension-blockquote'
 
 const Tiptap = () => {
     const editor = useEditor({
@@ -16,6 +19,7 @@ const Tiptap = () => {
                 },
             }),
             Highlight,
+            
             TableKit.configure({
                 table: {
                     resizable: true,
@@ -27,10 +31,30 @@ const Tiptap = () => {
 
             }),
             
+
+            Image.configure({
+                HTMLAttributes: {
+                    // class: "rounded-lg max-w-full h-auto",
+                    class: "rounded max-h-64 w-full object-cover",
+                    resize: {
+                        enabled: true,
+                        directions: ['top', 'bottom', 'left', 'right'], // can be any direction or diagonal combination
+                        minWidth: 50,
+                        minHeight: 50,
+                        alwaysPreserveAspectRatio: true,
+                    },
+                },
+            }),
+            Blockquote.configure({
+                HTMLAttributes: {
+                    class: 'my-custom-class',
+                },
+            })
+            
         ],
         
 
-        content: '<p>Schrijf hier je blog...</p>', 
+        content: '<p>Schrijf hier je blog...</p>' , 
         immediatelyRender: false,
         editorProps: {
             attributes: {
@@ -43,6 +67,7 @@ const Tiptap = () => {
 
     return (
         <div>
+            
             <MenuBar editor={editor} />
             <EditorContent editor={editor} />
 
