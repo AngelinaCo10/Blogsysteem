@@ -1,7 +1,12 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { EditorContent, EditorContext, useEditor } from "@tiptap/react"
+import {
+  EditorContent,
+  EditorContext,
+  useCurrentEditor,
+  useEditor,
+} from "@tiptap/react"
 
 // --- Tiptap Core Extensions ---
 import { StarterKit } from "@tiptap/starter-kit"
@@ -53,11 +58,13 @@ import {
 import { MarkButton } from "@/components/tiptap-ui/mark-button"
 import { TextAlignButton } from "@/components/tiptap-ui/text-align-button"
 import { UndoRedoButton } from "@/components/tiptap-ui/undo-redo-button"
+import { TableKit } from "@tiptap/extension-table"
 
 // --- Icons ---
 import { ArrowLeftIcon } from "@/components/tiptap-icons/arrow-left-icon"
 import { HighlighterIcon } from "@/components/tiptap-icons/highlighter-icon"
 import { LinkIcon } from "@/components/tiptap-icons/link-icon"
+import { TableIcon } from "lucide-react"
 
 // --- Hooks ---
 import { useIsBreakpoint } from "@/hooks/use-is-breakpoint"
@@ -74,6 +81,27 @@ import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils"
 import "@/components/tiptap-templates/simple/simple-editor.scss"
 
 import content from "@/components/tiptap-templates/simple/data/content.json"
+
+const InsertTableButton = () => {
+  const { editor } = useCurrentEditor()
+
+  return (
+    <Button
+      type="button"
+      tooltip="Tabel invoegen"
+      disabled={!editor}
+      onClick={() =>
+        editor
+          ?.chain()
+          .focus()
+          .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+          .run()
+      }
+    >
+      <TableIcon className="tiptap-button-icon" />
+    </Button>
+  )
+}
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -141,6 +169,7 @@ const MainToolbarContent = ({
 
       <ToolbarGroup>
         <ImageUploadButton text="" />
+        <InsertTableButton />
       </ToolbarGroup>
 
       <Spacer />
@@ -202,6 +231,7 @@ export function SimpleEditor() {
         class: "simple-editor",
       },
     },
+
     extensions: [
       StarterKit.configure({
         horizontalRule: false,
@@ -210,6 +240,10 @@ export function SimpleEditor() {
           enableClickSelection: true,
         },
       }),
+      TableKit.configure({
+        table: { resizable: true },
+      }),
+
       HorizontalRule,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       TaskList,

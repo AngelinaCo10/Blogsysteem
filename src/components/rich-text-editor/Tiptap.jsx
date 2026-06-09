@@ -71,7 +71,7 @@ const Tiptap = () => {
             <MenuBar editor={editor} />
             <EditorContent editor={editor} />
 
-            {/* <div className="button-group">
+            <div className="button-group">
                 <button
                     onClick={() =>
                         editor.chain().focus().insertTable({ rows: 3, cols: 3, withHeaderRow: true }).run()
@@ -116,7 +116,7 @@ const Tiptap = () => {
                 <button onClick={() => editor.chain().focus().goToPreviousCell().run()}>
                     Go to previous cell
                 </button>
-            </div> */}
+            </div>
         </div>
     )
 }

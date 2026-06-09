@@ -1,7 +1,12 @@
 "use client"
 
 import { useEffect, useRef, useState } from "react"
-import { EditorContent, EditorContext, useEditor } from "@tiptap/react"
+import {
+  EditorContent,
+  EditorContext,
+  useCurrentEditor,
+  useEditor,
+} from "@tiptap/react"
 
 // --- Tiptap Core Extensions ---
 import { StarterKit } from "@tiptap/starter-kit"
@@ -16,7 +21,6 @@ import { Selection } from "@tiptap/extensions"
 import { Placeholder } from '@tiptap/extensions'
 // --- UI Primitives ---
 import { Button } from "@/components/tiptap Startkit/tiptap-ui-primitive/button"
-import { Spacer } from "@/components/tiptap Startkit/tiptap-ui-primitive/spacer"
 import {
   Toolbar,
   ToolbarGroup,
@@ -39,7 +43,6 @@ import { HeadingDropdownMenu } from "@/components/tiptap Startkit/tiptap-ui/head
 import { ImageUploadButton } from "@/components/tiptap Startkit/tiptap-ui/image-upload-button"
 import { ListDropdownMenu } from "@/components/tiptap Startkit/tiptap-ui/list-dropdown-menu"
 import { BlockquoteButton } from "@/components/tiptap Startkit/tiptap-ui/blockquote-button"
-import { CodeBlockButton } from "@/components/tiptap Startkit/tiptap-ui/code-block-button"
 import {
   ColorHighlightPopover,
   ColorHighlightPopoverContent,
@@ -53,11 +56,18 @@ import {
 import { MarkButton } from "@/components/tiptap Startkit/tiptap-ui/mark-button"
 import { TextAlignButton } from "@/components/tiptap Startkit/tiptap-ui/text-align-button"
 import { UndoRedoButton } from "@/components/tiptap Startkit/tiptap-ui/undo-redo-button"
-
+import { TableKit } from "@tiptap/extension-table"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 // --- Icons ---
 import { ArrowLeftIcon } from "@/components/tiptap Startkit/tiptap-icons/arrow-left-icon"
 import { HighlighterIcon } from "@/components/tiptap Startkit/tiptap-icons/highlighter-icon"
 import { LinkIcon } from "@/components/tiptap Startkit/tiptap-icons/link-icon"
+import { TableIcon } from "lucide-react"
 
 // --- Hooks ---
 import { useIsBreakpoint } from "@/hooks/use-is-breakpoint"
@@ -74,6 +84,136 @@ import { handleImageUpload, MAX_FILE_SIZE } from "@/lib/tiptap-utils"
 import "@/components/tiptap-templates/simple/simple-editor.scss"
 
 // import content from "@/components/tiptap-templates/simple/data/content.json"
+
+const InsertTableButton = () => {
+  const { editor } = useCurrentEditor()
+ if (!editor) return null
+  return (
+  //   <Button
+  //     type="button"
+  //     tooltip="Tabel invoegen"
+  //     disabled={!editor}
+  //     onClick={() =>
+  //       editor
+  //         ?.chain()
+  //         .focus()
+  //         .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+  //         .run()
+  //     }
+  //   >
+  //     <TableIcon className="tiptap-button-icon" />
+  //     <DropdownMenuItem
+  //     onClick={() => editor.chain().focus().addColumnBefore().run()}
+  //   >
+  //     Kolom links toevoegen
+  //   </DropdownMenuItem>
+
+  //   <DropdownMenuItem
+  //     onClick={() => editor.chain().focus().addColumnAfter().run()}
+  //   >
+  //     Kolom rechts toevoegen
+  //   </DropdownMenuItem>
+
+  //   <DropdownMenuItem
+  //     onClick={() => editor.chain().focus().addRowBefore().run()}
+  //   >
+  //     Rij boven toevoegen
+  //   </DropdownMenuItem>
+
+  //   <DropdownMenuItem
+  //     onClick={() => editor.chain().focus().addRowAfter().run()}
+  //   >
+  //     Rij onder toevoegen
+  //   </DropdownMenuItem>
+
+  //   <DropdownMenuItem
+  //     onClick={() => editor.chain().focus().deleteColumn().run()}
+  //   >
+  //     Kolom verwijderen
+  //   </DropdownMenuItem>
+
+  //   <DropdownMenuItem
+  //     onClick={() => editor.chain().focus().deleteRow().run()}
+  //   >
+  //     Rij verwijderen
+  //   </DropdownMenuItem>
+
+  //   <DropdownMenuItem
+  //     onClick={() => editor.chain().focus().deleteTable().run()}
+  //     className="text-red-500"
+  //   >
+  //     Tabel verwijderen
+  //   </DropdownMenuItem>
+  //   </Button>
+    
+  // )
+
+  <DropdownMenu>
+  <DropdownMenuTrigger asChild>
+    <Button type="button" tooltip="Tabel">
+      <TableIcon className="tiptap-button-icon" />
+    </Button>
+  </DropdownMenuTrigger>
+
+  <DropdownMenuContent>
+    <DropdownMenuItem
+      onClick={() =>
+        editor.chain().focus().insertTable({
+          rows: 3,
+          cols: 3,
+          withHeaderRow: true,
+        }).run()
+      }
+    >
+      Tabel toevoegen
+    </DropdownMenuItem>
+
+    <DropdownMenuItem
+      onClick={() => editor.chain().focus().addColumnBefore().run()}
+    >
+      Kolom links toevoegen
+    </DropdownMenuItem>
+
+    <DropdownMenuItem
+      onClick={() => editor.chain().focus().addColumnAfter().run()}
+    >
+      Kolom rechts toevoegen
+    </DropdownMenuItem>
+
+    <DropdownMenuItem
+      onClick={() => editor.chain().focus().addRowBefore().run()}
+    >
+      Rij boven toevoegen
+    </DropdownMenuItem>
+
+    <DropdownMenuItem
+      onClick={() => editor.chain().focus().addRowAfter().run()}
+    >
+      Rij onder toevoegen
+    </DropdownMenuItem>
+
+    <DropdownMenuItem
+      onClick={() => editor.chain().focus().deleteColumn().run()}
+    >
+      Kolom verwijderen
+    </DropdownMenuItem>
+
+    <DropdownMenuItem
+      onClick={() => editor.chain().focus().deleteRow().run()}
+    >
+      Rij verwijderen
+    </DropdownMenuItem>
+
+    <DropdownMenuItem
+      onClick={() => editor.chain().focus().deleteTable().run()}
+      className="text-red-500"
+    >
+      Tabel verwijderen
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+  )
+}
 
 const MainToolbarContent = ({
   onHighlighterClick,
@@ -141,6 +281,7 @@ const MainToolbarContent = ({
 
       <ToolbarGroup>
         <ImageUploadButton text="" />
+        <InsertTableButton />
       </ToolbarGroup>
 
       {/* <Spacer /> */}
@@ -211,6 +352,9 @@ export function SimpleEditor() {
           enableClickSelection: true,
         },
       }),
+      TableKit.configure({
+        table: { resizable: true },
+      }),
       HorizontalRule,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       TaskList,
@@ -229,9 +373,9 @@ export function SimpleEditor() {
         onError: (error) => console.error("Upload failed:", error),
       }),
       Placeholder.configure({ 
-        placeholder: "Schrijf hier je blog...", 
+        placeholder: "Schrijf hier je blog...",
       }),
-    ]    
+    ]
   })
 
   const rect = useCursorVisibility({
