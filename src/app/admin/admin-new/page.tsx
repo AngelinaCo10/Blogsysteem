@@ -143,7 +143,7 @@ export default function FieldDemo() {
                     </Field>
                   </FieldGroup>
                   <SimpleEditor />
-                    <Tiptap />
+                    {/* <Tiptap /> */}
 
                 </FieldSet>
                 {/* <Field orientation="horizontal">

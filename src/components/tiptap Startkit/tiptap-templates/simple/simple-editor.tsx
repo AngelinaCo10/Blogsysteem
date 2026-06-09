@@ -21,6 +21,8 @@ import { Selection } from "@tiptap/extensions"
 import { Placeholder } from '@tiptap/extensions'
 // --- UI Primitives ---
 import { Button } from "@/components/tiptap Startkit/tiptap-ui-primitive/button"
+import { Spacer } from "@/components/tiptap-ui-primitive/spacer"
+
 import {
   Toolbar,
   ToolbarGroup,
@@ -87,131 +89,75 @@ import "@/components/tiptap-templates/simple/simple-editor.scss"
 
 const InsertTableButton = () => {
   const { editor } = useCurrentEditor()
- if (!editor) return null
+  if (!editor) return null
   return (
-  //   <Button
-  //     type="button"
-  //     tooltip="Tabel invoegen"
-  //     disabled={!editor}
-  //     onClick={() =>
-  //       editor
-  //         ?.chain()
-  //         .focus()
-  //         .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
-  //         .run()
-  //     }
-  //   >
-  //     <TableIcon className="tiptap-button-icon" />
-  //     <DropdownMenuItem
-  //     onClick={() => editor.chain().focus().addColumnBefore().run()}
-  //   >
-  //     Kolom links toevoegen
-  //   </DropdownMenuItem>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          type="button"
+          variant="ghost"
+          tooltip="Tabel"    >
+          <TableIcon className="tiptap-button-icon" />
+        </Button>
+      </DropdownMenuTrigger>
 
-  //   <DropdownMenuItem
-  //     onClick={() => editor.chain().focus().addColumnAfter().run()}
-  //   >
-  //     Kolom rechts toevoegen
-  //   </DropdownMenuItem>
+      <DropdownMenuContent>
+        <DropdownMenuItem
+          onClick={() =>
+            editor.chain().focus().insertTable({
+              rows: 3,
+              cols: 3,
+              withHeaderRow: true,
+            }).run()
+          }
+        >
+          Tabel toevoegen
+        </DropdownMenuItem>
 
-  //   <DropdownMenuItem
-  //     onClick={() => editor.chain().focus().addRowBefore().run()}
-  //   >
-  //     Rij boven toevoegen
-  //   </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().addColumnBefore().run()}
+        >
+          Kolom links toevoegen
+        </DropdownMenuItem>
 
-  //   <DropdownMenuItem
-  //     onClick={() => editor.chain().focus().addRowAfter().run()}
-  //   >
-  //     Rij onder toevoegen
-  //   </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().addColumnAfter().run()}
+        >
+          Kolom rechts toevoegen
+        </DropdownMenuItem>
 
-  //   <DropdownMenuItem
-  //     onClick={() => editor.chain().focus().deleteColumn().run()}
-  //   >
-  //     Kolom verwijderen
-  //   </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().addRowBefore().run()}
+        >
+          Rij boven toevoegen
+        </DropdownMenuItem>
 
-  //   <DropdownMenuItem
-  //     onClick={() => editor.chain().focus().deleteRow().run()}
-  //   >
-  //     Rij verwijderen
-  //   </DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().addRowAfter().run()}
+        >
+          Rij onder toevoegen
+        </DropdownMenuItem>
 
-  //   <DropdownMenuItem
-  //     onClick={() => editor.chain().focus().deleteTable().run()}
-  //     className="text-red-500"
-  //   >
-  //     Tabel verwijderen
-  //   </DropdownMenuItem>
-  //   </Button>
-    
-  // )
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().deleteColumn().run()}
+        >
+          Kolom verwijderen
+        </DropdownMenuItem>
 
-  <DropdownMenu>
-  <DropdownMenuTrigger asChild>
-    <Button type="button" tooltip="Tabel">
-      <TableIcon className="tiptap-button-icon" />
-    </Button>
-  </DropdownMenuTrigger>
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().deleteRow().run()}
+        >
+          Rij verwijderen
+        </DropdownMenuItem>
 
-  <DropdownMenuContent>
-    <DropdownMenuItem
-      onClick={() =>
-        editor.chain().focus().insertTable({
-          rows: 3,
-          cols: 3,
-          withHeaderRow: true,
-        }).run()
-      }
-    >
-      Tabel toevoegen
-    </DropdownMenuItem>
-
-    <DropdownMenuItem
-      onClick={() => editor.chain().focus().addColumnBefore().run()}
-    >
-      Kolom links toevoegen
-    </DropdownMenuItem>
-
-    <DropdownMenuItem
-      onClick={() => editor.chain().focus().addColumnAfter().run()}
-    >
-      Kolom rechts toevoegen
-    </DropdownMenuItem>
-
-    <DropdownMenuItem
-      onClick={() => editor.chain().focus().addRowBefore().run()}
-    >
-      Rij boven toevoegen
-    </DropdownMenuItem>
-
-    <DropdownMenuItem
-      onClick={() => editor.chain().focus().addRowAfter().run()}
-    >
-      Rij onder toevoegen
-    </DropdownMenuItem>
-
-    <DropdownMenuItem
-      onClick={() => editor.chain().focus().deleteColumn().run()}
-    >
-      Kolom verwijderen
-    </DropdownMenuItem>
-
-    <DropdownMenuItem
-      onClick={() => editor.chain().focus().deleteRow().run()}
-    >
-      Rij verwijderen
-    </DropdownMenuItem>
-
-    <DropdownMenuItem
-      onClick={() => editor.chain().focus().deleteTable().run()}
-      className="text-red-500"
-    >
-      Tabel verwijderen
-    </DropdownMenuItem>
-  </DropdownMenuContent>
-</DropdownMenu>
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().deleteTable().run()}
+          className="text-red-500"
+        >
+          Tabel verwijderen
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }
 
@@ -284,13 +230,14 @@ const MainToolbarContent = ({
         <InsertTableButton />
       </ToolbarGroup>
 
-      {/* <Spacer /> */}
+      <Spacer />
 
       {/* {isMobile && <ToolbarSeparator />} */}
 
-      <ToolbarGroup>
+      {/* Darkmode */}
+      {/* <ToolbarGroup>
         <ThemeToggle />
-      </ToolbarGroup>
+      </ToolbarGroup> */}
     </>
   )
 }
@@ -369,10 +316,12 @@ export function SimpleEditor() {
         accept: "image/*",
         maxSize: MAX_FILE_SIZE,
         limit: 3,
-        upload: handleImageUpload,
+        upload: async (file) => {
+          return URL.createObjectURL(file)
+        },
         onError: (error) => console.error("Upload failed:", error),
       }),
-      Placeholder.configure({ 
+      Placeholder.configure({
         placeholder: "Schrijf hier je blog...",
       }),
     ]
@@ -397,8 +346,8 @@ export function SimpleEditor() {
           style={{
             ...(isMobile
               ? {
-                  bottom: `calc(100% - ${height - rect.y}px)`,
-                }
+                bottom: `calc(100% - ${height - rect.y}px)`,
+              }
               : {}),
           }}
         >
