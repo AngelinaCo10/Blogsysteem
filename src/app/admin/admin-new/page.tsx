@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/tooltip"
 import Tiptap from '@/components/rich-text-editor/Tiptap'
 import { Undo2, Redo2 } from "lucide-react"
+import { SimpleEditor } from '@/components/tiptap Startkit/tiptap-templates/simple/simple-editor'
 
 export default function FieldDemo() {
 
@@ -129,7 +130,6 @@ export default function FieldDemo() {
                         onChange={(e) => setTitle(e.target.value)}
                       />
                     </Field>
-                    <Tiptap />
                     <Field>
                       <FieldLabel htmlFor="checkout-7j9-optional-comments">
                         Intro
@@ -139,15 +139,12 @@ export default function FieldDemo() {
                         placeholder="Schrijf een intro"
                         className="resize-none"
                       />
-                    </Field>
-                    <Field>
-                      <Textarea
-                        id="feedback"
-                        rows={4}
-                      />
-                    </Field>
 
+                    </Field>
                   </FieldGroup>
+                  <SimpleEditor />
+                    <Tiptap />
+
                 </FieldSet>
                 {/* <Field orientation="horizontal">
                 <Button type="submit">Submit</Button>
@@ -158,6 +155,9 @@ export default function FieldDemo() {
               </FieldGroup>
             </form>
           </Card>
+
+
+
 
           {/* Metadata */}
 
