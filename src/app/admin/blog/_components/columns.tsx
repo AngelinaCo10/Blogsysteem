@@ -290,9 +290,13 @@ export const columns: ColumnDef<Blog>[] = [
         >
           <AlertDialog>
             <AlertDialogTrigger asChild>
-            <div className=" flex justify-center p-[5px] opacity-0 transition-opacity group-hover:opacity-100 hover:bg-[#FDE6E7] rounded-md ">
+            <button
+              type="button"
+              aria-label="Verplaats naar prullenbak"
+              className="flex justify-center p-[5px] opacity-0 transition-opacity group-hover:opacity-100 hover:bg-[#FDE6E7] rounded-md"
+            >
               <Trash2 size={30} strokeWidth={1.25} />
-            </div>
+            </button>
             </AlertDialogTrigger>
             <AlertDialogContent size="sm">
               <AlertDialogHeader>
