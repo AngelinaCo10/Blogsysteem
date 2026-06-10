@@ -18,6 +18,8 @@ import { Highlight } from "@tiptap/extension-highlight"
 import { Subscript } from "@tiptap/extension-subscript"
 import { Superscript } from "@tiptap/extension-superscript"
 import { Selection } from "@tiptap/extensions"
+import { Placeholder } from '@tiptap/extensions'
+
 
 // --- UI Primitives ---
 import { Button } from "@/components/tiptap-ui-primitive/button"
@@ -59,6 +61,12 @@ import { MarkButton } from "@/components/tiptap-ui/mark-button"
 import { TextAlignButton } from "@/components/tiptap-ui/text-align-button"
 import { UndoRedoButton } from "@/components/tiptap-ui/undo-redo-button"
 import { TableKit } from "@tiptap/extension-table"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 // --- Icons ---
 import { ArrowLeftIcon } from "@/components/tiptap-icons/arrow-left-icon"
@@ -84,21 +92,102 @@ import content from "@/components/tiptap-templates/simple/data/content.json"
 
 const InsertTableButton = () => {
   const { editor } = useCurrentEditor()
+  if (!editor) return null
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          type="button"
+          variant="ghost"
+          tooltip="Tabel"    >
+          <TableIcon className="tiptap-button-icon" />
+        </Button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent>
+        <DropdownMenuItem
+          onClick={() =>
+            editor.chain().focus().insertTable({
+              rows: 3,
+              cols: 3,
+              withHeaderRow: true,
+            }).run()
+          }
+        >
+          Tabel toevoegen
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().addColumnBefore().run()}
+        >
+          Kolom links toevoegen
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().addColumnAfter().run()}
+        >
+          Kolom rechts toevoegen
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().addRowBefore().run()}
+        >
+          Rij boven toevoegen
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().addRowAfter().run()}
+        >
+          Rij onder toevoegen
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().deleteColumn().run()}
+        >
+          Kolom verwijderen
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().deleteRow().run()}
+        >
+          Rij verwijderen
+        </DropdownMenuItem>
+
+        <DropdownMenuItem
+          onClick={() => editor.chain().focus().deleteTable().run()}
+          className="text-red-500"
+        >
+          Tabel verwijderen
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
+const InsertCtaButton = () => {
+  const { editor } = useCurrentEditor()
+  if (!editor) return null
 
   return (
     <Button
       type="button"
-      tooltip="Tabel invoegen"
-      disabled={!editor}
-      onClick={() =>
+      variant="ghost"
+      aria-label="CTA knop invoegen"
+      tooltip="CTA knop invoegen"
+      onClick={() => {
+        const text = prompt("Tekst op de knop")
+        const url = prompt("Link")
+
+        if (!text || !url) return
+
         editor
-          ?.chain()
+          .chain()
           .focus()
-          .insertTable({ rows: 3, cols: 3, withHeaderRow: true })
+          .insertContent(`<a href="${url}" class="cta-button">${text}</a>`)
           .run()
-      }
+      }}
     >
-      <TableIcon className="tiptap-button-icon" />
+      <span className="tiptap-button-text">CTA</span>
     </Button>
   )
 }
@@ -114,7 +203,7 @@ const MainToolbarContent = ({
 }) => {
   return (
     <>
-      <Spacer />
+      {/* <Spacer /> */}
 
       <ToolbarGroup>
         <UndoRedoButton action="undo" />
@@ -130,7 +219,7 @@ const MainToolbarContent = ({
           types={["bulletList", "orderedList", "taskList"]}
         />
         <BlockquoteButton />
-        <CodeBlockButton />
+        {/* <CodeBlockButton /> */}
       </ToolbarGroup>
 
       <ToolbarSeparator />
@@ -139,7 +228,7 @@ const MainToolbarContent = ({
         <MarkButton type="bold" />
         <MarkButton type="italic" />
         <MarkButton type="strike" />
-        <MarkButton type="code" />
+        {/* <MarkButton type="code" /> */}
         <MarkButton type="underline" />
         {!isMobile ? (
           <ColorHighlightPopover />
@@ -152,8 +241,8 @@ const MainToolbarContent = ({
       <ToolbarSeparator />
 
       <ToolbarGroup>
-        <MarkButton type="superscript" />
-        <MarkButton type="subscript" />
+        {/* <MarkButton type="superscript" />
+        <MarkButton type="subscript" /> */}
       </ToolbarGroup>
 
       <ToolbarSeparator />
@@ -170,15 +259,17 @@ const MainToolbarContent = ({
       <ToolbarGroup>
         <ImageUploadButton text="" />
         <InsertTableButton />
+        <InsertCtaButton />
       </ToolbarGroup>
 
       <Spacer />
 
-      {isMobile && <ToolbarSeparator />}
+      {/* {isMobile && <ToolbarSeparator />} */}
 
-      <ToolbarGroup>
+      {/* Darkmode */}
+      {/* <ToolbarGroup>
         <ThemeToggle />
-      </ToolbarGroup>
+      </ToolbarGroup> */}
     </>
   )
 }
@@ -231,7 +322,6 @@ export function SimpleEditor() {
         class: "simple-editor",
       },
     },
-
     extensions: [
       StarterKit.configure({
         horizontalRule: false,
@@ -243,7 +333,6 @@ export function SimpleEditor() {
       TableKit.configure({
         table: { resizable: true },
       }),
-
       HorizontalRule,
       TextAlign.configure({ types: ["heading", "paragraph"] }),
       TaskList,
@@ -258,11 +347,15 @@ export function SimpleEditor() {
         accept: "image/*",
         maxSize: MAX_FILE_SIZE,
         limit: 3,
-        upload: handleImageUpload,
+        upload: async (file) => {
+          return URL.createObjectURL(file)
+        },
         onError: (error) => console.error("Upload failed:", error),
       }),
-    ],
-    content,
+      Placeholder.configure({
+        placeholder: "Schrijf hier je blog...",
+      }),
+    ]
   })
 
   const rect = useCursorVisibility({
@@ -277,15 +370,15 @@ export function SimpleEditor() {
   }, [isMobile, mobileView])
 
   return (
-    <div className="simple-editor-wrapper">
+    <div className="rounded-lg border border-input bg-background overflow-hidden">
       <EditorContext.Provider value={{ editor }}>
         <Toolbar
           ref={toolbarRef}
           style={{
             ...(isMobile
               ? {
-                  bottom: `calc(100% - ${height - rect.y}px)`,
-                }
+                bottom: `calc(100% - ${height - rect.y}px)`,
+              }
               : {}),
           }}
         >

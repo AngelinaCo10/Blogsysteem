@@ -23,7 +23,7 @@ import {
 } from "@/components/ui/tooltip"
 import Tiptap from '@/components/rich-text-editor/Tiptap'
 import { Undo2, Redo2 } from "lucide-react"
-import { SimpleEditor } from '@/components/tiptap Startkit/tiptap-templates/simple/simple-editor'
+import { SimpleEditor } from '@/components/tiptap-templates/simple/simple-editor'
 
 export default function FieldDemo() {
 

@@ -32,6 +32,7 @@
   white-space: pre-wrap;
   outline: none;
   caret-color: var(--tt-cursor-color);
+  
 
   // Paragraph spacing
   p:not(:first-child):not(td p):not(th p) {
@@ -144,7 +145,7 @@
 .tiptap.ProseMirror {
   a {
     color: var(--link-text-color);
-    text-decoration: underline;
+    cursor: pointer;
   }
 }
 
