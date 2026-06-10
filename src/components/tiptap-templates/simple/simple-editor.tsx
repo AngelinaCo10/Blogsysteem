@@ -173,7 +173,7 @@ const InsertCtaButton = () => {
       type="button"
       variant="ghost"
       aria-label="CTA knop invoegen"
-      tooltip="CTA knop invoegen"
+      tooltip="Call to Action knop"
       onClick={() => {
         const text = prompt("Tekst op de knop")
         const url = prompt("Link")

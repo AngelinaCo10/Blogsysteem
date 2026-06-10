@@ -1,6 +1,6 @@
 .tiptap.ProseMirror {
   --tt-collaboration-carets-label: var(--tt-gray-light-900);
-  --link-text-color: var(--tt-brand-color-500);
+  --link-text-color: #FFFFFF;
   --thread-text: var(--tt-gray-light-900);
   --placeholder-color: var(--tt-gray-light-a-400);
   --thread-bg-color: var(--tt-color-yellow-inc-2);
@@ -31,7 +31,7 @@
 .tiptap.ProseMirror {
   white-space: pre-wrap;
   outline: none;
-  caret-color: var(--tt-cursor-color);
+  caret-color: var(--tt-cursor-color, rgba(98, 45, 246, 1));
   
 
   // Paragraph spacing
