@@ -213,6 +213,7 @@ const router = useRouter()
             size="icon"
             onClick={() => table.setPageIndex(0)}
             disabled={!table.getCanPreviousPage()}
+            aria-label="first page button"
           >
             <ChevronsLeft className="h-4 w-4 text-[#717336]" />
           </Button>
@@ -223,6 +224,7 @@ const router = useRouter()
             size="icon"
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
+            aria-label="Previous page button"
           >
             <ChevronLeft className="h-4 w-4 text-[#717336]" />
 
@@ -254,6 +256,8 @@ const router = useRouter()
             size="icon"
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
+            aria-label="Next page button"
+
           >
             <ChevronRight className="h-4 w-4 text-[#717336]" />
 
@@ -265,6 +269,8 @@ const router = useRouter()
             size="icon"
             onClick={() => table.setPageIndex(table.getPageCount() - 1)}
             disabled={!table.getCanNextPage()}
+            aria-label="Last page button"
+
           >
             <ChevronsRight className="h-4 w-4 text-[#717336]" />
           </Button>
